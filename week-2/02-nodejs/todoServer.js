@@ -44,6 +44,81 @@
   
   const app = express();
   
-  app.use(bodyParser.json());
+  const todo = [];
+  
+  app.use(express.json());
+  
+  // GET /todos - Retrieve all todo items
+  app.get("/todos", (req, res) => {
+    res.status(200).json(todo);
+  });
+  
+  // GET /todos/:id - Retrieve a specific todo item by ID
+  app.get("/todos/:id", (req, res) => {
+    const id = req.params.id;
+    const todoItem = todo.find((item) => item.id === parseInt(id));
+    if (todoItem) {
+      res.status(200).json(todoItem);
+    } else {
+      res.status(404).json({ message: "Todo item not found" });
+    }
+  });
+  
+  // POST /todos - Create a new todo item
+  app.post("/todos", (req, res) => {
+    const { title, description } = req.body;
+    if (!title || !description) {
+      return res.status(400).json({ message: "Title and description are required" });
+    }
+  
+    const newTodo = {
+      id: Math.floor(Math.random() * 10000),
+      title: title,
+      description: description
+    };
+  
+    todo.push(newTodo);
+    res.status(201).json({ id: newTodo.id });
+  });
+  
+  // PUT /todos/:id - Update an existing todo item by ID
+  app.put("/todos/:id", (req, res) => {
+    const id = req.params.id;
+    const todoItem = todo.find((item) => item.id === parseInt(id));
+  
+    if (todoItem) {
+      todoItem.title = req.body.title || todoItem.title;
+      todoItem.description = req.body.description || todoItem.description;
+      res.status(200).json(todoItem);
+    } else {
+      res.status(404).json({ message: "Todo item not found" });
+    }
+  });
+  
+  // DELETE /todos/:id - Delete a todo item by ID
+  app.delete("/todos/:id", (req, res) => {
+    const id = req.params.id;
+    const todoIndex = todo.findIndex((item) => item.id === parseInt(id));
+  
+    if (todoIndex !== -1) {
+      const deletedItem = todo.splice(todoIndex, 1)[0];
+      res.status(200).json({
+        message: "Todo item has been deleted successfully",
+        deletedItem: {
+          id: deletedItem.id,
+          description: deletedItem.description
+        }
+      });
+    } else {
+      res.status(404).json({ message: "Todo item not found" });
+    }
+  });
+  
+  // Catch-all for undefined routes
+  app.all('*', (req, res) => {
+    res.status(404).json({ message: "Route not found" });
+  });
+
+  app.listen(3000);
   
   module.exports = app;
