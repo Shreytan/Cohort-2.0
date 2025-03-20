@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <label for="nameip">Enter your name bud</label>
+    <input type="text" id = "nameip">
+    <button onclick="Greet()">Submit</button>
+    <p id="hello" ></p>
+</body>
+<script>
+    function Greet(){
+        var name = document.getElementById("nameip").value;
+        var Hi = document.getElementById("hello").innerHTML = "HEllO   " + name + "   WELCOME tO tHE hOOD";
+    }
+</script>
+</html>
