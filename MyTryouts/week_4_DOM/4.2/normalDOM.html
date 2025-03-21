@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<script>
+    function todofncn(){
+        var Title = document.getElementById("title").value;
+        var Description = document.getElementById("description").value;
+        var origional = document.getElementById("container").innerHTML;
+        document.getElementById("container").innerHTML = origional + `
+        <div>${Title}</div>
+        <div>${Description}</div>
+        <button>mark as completed </button>`
+    }
+</script>
+<body>
+    <input type="text" name="" id="title" placeholder="title"><br><br>
+    <input type="text" name="" id="description" placeholder="description"><br><br>
+    <button onclick="todofncn()">add TODO</button>
+    <br>
+    <div id = "container">
+       
+    </div>
+</body>
+</html>
