@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <script>
+   let globalID = 1;
+   function mark(id){
+    const parent = document.getElementById(id);
+    if (parent && parent.children.length >= 3) {
+      parent.children[2].innerHTML = "DONE";
+    }
+   }
+   function createChild(title, description, id){
+    const parent = document.createElement("div");
+    const first_child = document.createElement("div");
+    first_child.innerHTML = title;
+    const second_child = document.createElement("div");
+    second_child.innerHTML = description;
+    const third_child = document.createElement("button");
+    third_child.innerHTML = "Mark as completed";
+    third_child.setAttribute('onclick', `mark('${id}')`);
+    parent.appendChild(first_child);
+    parent.appendChild(second_child);
+    parent.appendChild(third_child);
+    parent.setAttribute("id", id);
+    return parent;
+   }
+   function addTodo(){
+    var parent = document.getElementById("container");
+    var title = document.getElementById("title").value;
+    var description = document.getElementById("description").value;
+    parent.appendChild(createChild(title, description, globalID));
+    globalID++; // Increment the ID for uniqueness
+   }
+  </script>
+</head>
+
+<body>
+  <input type="text" id="title" placeholder="Todo title"> <br /><br />
+  <input type="text" id="description" placeholder="Todo description"> <br /><br />
+  <button onclick="addTodo()">Add todo</button>
+
+  <div id="container">
+  </div>
+</body>
+
+</html>
