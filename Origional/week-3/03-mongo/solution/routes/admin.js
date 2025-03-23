@@ -9,14 +9,21 @@ router.post('/signup', async (req, res) => {
     const password = req.body.password;
 
     // check if a user with this username already exists
-    await Admin.create({
+    Admin.create({
         username: username,
         password: password
+    }).then(()=>{
+        res.json({
+            message: 'Admin created successfully'
+        });
+    })
+    .catch((err) => {
+        res.status(403).json({
+            "msg" : "username preexists"
+        })
     })
 
-    res.json({
-        message: 'Admin created successfully'
-    })
+ 
     
 });
 

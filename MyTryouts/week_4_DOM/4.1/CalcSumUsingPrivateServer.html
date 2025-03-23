@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<script>
+    function PopulateDiv(){
+        var x = document.getElementById("no1");
+        console.log(x);
+        var y = document.getElementById("no2");
+        console.log(y);
+        fetch("https://sum-server.100xdevs.com/sum?a="+x + "&b=" +y).then((resolve)=>{
+            console.log(resolve);
+            console.log(resolve.text().then((hell)=>{
+                document.getElementById("finalsum").innerHTML = hell;
+            }))
+        })
+    }
+</script>
+<body>
+    <label for="no1">Enter the first number</label>
+    <input id = "no1" type="number" placeholder="first number" ><br>
+    <label for="no2">Enter the first number</label>
+    <input id = "no2" type="number" placeholder="second number" >
+    <button onclick="PopulateDiv()">Calculate SUM</button>
+    <div id="finalsum"></div>
+
+</body>
+
+
+</html>
