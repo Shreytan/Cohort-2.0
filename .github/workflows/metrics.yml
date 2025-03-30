@@ -9,12 +9,18 @@ jobs:
   github-metrics:
     runs-on: ubuntu-latest
     steps:
+      - name: Set up Docker
+        run: sudo apt-get update && sudo apt-get install -y docker.io
+        
+      - name: Install jq
+        run: sudo apt-get install -y jq
+
       - name: Generate Metrics
         uses: lowlighter/metrics@latest
         with:
-            token: ${{ secrets.METRICS_TOKEN }}
-            user: Shreytan
-            template: classic
-            base: header, activity
-            plugin_languages: yes
-            plugin_stars: yes
+          token: ${{ secrets.METRICS_TOKEN }}
+          user: Shreytan
+          template: classic
+          base: header, activity
+          plugin_languages: yes
+          plugin_stars: yes
