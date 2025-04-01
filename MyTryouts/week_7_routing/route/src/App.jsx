@@ -2,9 +2,9 @@
 
 // import { BrowserRouter, Route, Routes, useNavigate } from "react-router-dom";
 // import React, { lazy, Suspense } from "react";
-import { useContext, useState } from "react";
-import "./App.css";
-import { CountContext } from "./context";
+// import { useContext, useState } from "react";
+// import "./App.css";
+// import { CountContext } from "./context";
 
 // const Dashboard = lazy(() => import("./components/Dashboard"));
 // const Landing = lazy(() => import("./components/Landing"));
@@ -73,19 +73,70 @@ import { CountContext } from "./context";
 // export default App;
 
 
-function App() {
-  const [count, setCount] = useState(0);
+
+
+// ----------------------CONTEXT APIS-----------------------
+// function App() {
+//   const [count, setCount] = useState(0);
   
+//   return (
+//     <div>
+//       <CountContext.Provider value={{ count, setCount }}>
+//         <Count />
+//       </CountContext.Provider>
+//     </div>
+//   );
+// }
+
+// function Count() {
+//   return (
+//     <div>
+//       <CountRenderer />
+//       <Buttons />
+//     </div>
+//   );
+// }
+
+// function CountRenderer() {
+//   const { count } = useContext(CountContext);
+//   return <div>{count}</div>;
+// }
+ 
+// function Buttons() {
+//   const { count, setCount } = useContext(CountContext);
+//   return (
+//     <div>
+//       <button onClick={() => setCount(count + 1)}>Increase</button>
+//       <button onClick={() => setCount(count - 1)}>Decrease</button>
+//     </div>
+//   );
+// }
+
+// export default App;
+
+
+
+
+
+
+
+// -----------------------------RECOIL----------------
+
+import { RecoilRoot, useRecoilState, useRecoilValue } from "recoil";
+import { countAtom } from "./store/atoms/count";
+
+function App() {
   return (
     <div>
-      <CountContext.Provider value={{ count, setCount }}>
+      <RecoilRoot>
         <Count />
-      </CountContext.Provider>
+      </RecoilRoot>
     </div>
   );
 }
 
 function Count() {
+  console.log("re-render");
   return (
     <div>
       <CountRenderer />
@@ -95,12 +146,19 @@ function Count() {
 }
 
 function CountRenderer() {
-  const { count } = useContext(CountContext);
-  return <div>{count}</div>;
+  const count = useRecoilValue(countAtom);
+
+  return (
+    <div>
+      <b>{count}</b>
+    </div>
+  );
 }
 
 function Buttons() {
-  const { count, setCount } = useContext(CountContext);
+  const [count, setCount] = useRecoilState(countAtom); // Destructure here
+  console.log("buttons re-rendered");
+
   return (
     <div>
       <button onClick={() => setCount(count + 1)}>Increase</button>
