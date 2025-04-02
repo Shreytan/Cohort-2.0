@@ -122,8 +122,87 @@
 
 // -----------------------------RECOIL----------------
 
-import { RecoilRoot, useRecoilState, useRecoilValue } from "recoil";
-import { countAtom } from "./store/atoms/count";
+// import { RecoilRoot, useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
+// import { countAtom } from "./store/atoms/count";
+// import { useMemo } from "react";
+
+// function App() {
+//   return (
+//     <div>
+//       <RecoilRoot>
+//         <Count />
+//       </RecoilRoot>
+//     </div>
+//   );
+// }
+
+// function Count() {
+//   console.log("re-render");
+//   return (
+//     <div>
+//       <CountRenderer />
+//       <Buttons />
+//     </div>
+//   );
+// }
+
+// function CountRenderer() {
+//   const count = useRecoilValue(countAtom);
+
+//   return (
+//       <>
+//     <div>
+//       <b>{count}</b>
+//     </div>
+//     <CountEven />
+//     </>
+//   );
+// }
+// function CountEven(){
+//   console.log("check");
+//     const count = useRecoilValue(countAtom);
+//      const check = useMemo(()=>{
+//       if(count % 2 == 0){
+//         return(
+//           <>
+//           Even hu bro
+//           </>
+//         )
+//       }
+//       else{
+//         return(<>
+//         Odd hu bro
+//         </>)
+//       }
+//     },[count])
+//     return (
+//       <div>
+//         {check}
+//       </div>
+//     )
+// }
+
+// function Buttons() {
+//   const  setCount = useSetRecoilState(countAtom); // Destructure here
+//   console.log("buttons re-rendered");
+
+//   return (
+//     <div>
+//       <button onClick={() => setCount(count => count + 1)}>Increase</button>
+//       <button onClick={() => setCount(count => count - 1)}>Decrease</button>
+//     </div>
+//   );
+// }
+
+// export default App;
+
+
+// -----------------------------USING GET -------------------------------------
+
+import { RecoilRoot, useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
+import { countAtom , check } from "./store/atoms/count";
+
+import { useMemo } from "react";
 
 function App() {
   return (
@@ -149,20 +228,34 @@ function CountRenderer() {
   const count = useRecoilValue(countAtom);
 
   return (
+    <>
+      <div>
+        <b>{count}</b>
+      </div>
+      <CountEven />
+    </>
+  );
+}
+
+function CountEven() {
+  console.log("check");
+  const isEven = useRecoilValue(check); // Use `check` here properly
+
+  return (
     <div>
-      <b>{count}</b>
+      {isEven ? "Even" : null} {/* Render "Even" if `check` is truthy */}
     </div>
   );
 }
 
 function Buttons() {
-  const [count, setCount] = useRecoilState(countAtom); // Destructure here
+  const setCount = useSetRecoilState(countAtom); // Destructure here
   console.log("buttons re-rendered");
 
   return (
     <div>
-      <button onClick={() => setCount(count + 1)}>Increase</button>
-      <button onClick={() => setCount(count - 1)}>Decrease</button>
+      <button onClick={() => setCount(count => count + 1)}>Increase</button>
+      <button onClick={() => setCount(count => count - 1)}>Decrease</button>
     </div>
   );
 }
