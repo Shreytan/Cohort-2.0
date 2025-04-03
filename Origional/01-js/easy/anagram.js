@@ -5,7 +5,10 @@
 */
 
 function isAnagram(str1, str2) {
-
+  // First, we need to remove any spaces and convert both strings to lower case
+  for(let i = 0;i<str1.length ; i++){
+    
+  }
 }
 
 module.exports = isAnagram;

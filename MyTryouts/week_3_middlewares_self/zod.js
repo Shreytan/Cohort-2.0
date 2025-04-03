@@ -15,6 +15,6 @@ app.post("/health-checkup", (req, res) => {
   res.send(response);
 });
 
-app.listen(3000, () => {
+app.listen(3000,() => {
   console.log("Server running on port 3000");
 });
