@@ -1,29 +1,38 @@
-import { useEffect, useState } from 'react';
+import React from 'react';
 
-function useInterval(fn, n) {
+import { useState, useEffect } from 'react';
+
+const useDebounce = (value, delay) => {
+  // State to store the debounced value
+  const [debouncedValue, setDebouncedValue] = useState(value);
+
   useEffect(() => {
-    const intervalId = setInterval(() => {
-      fn();
-    }, n);
+    // Set up a timer to update the debounced value after the specified delay
+    const timerId = setTimeout(() => {
+      setDebouncedValue(value);
+    }, delay);
 
-    return () => {
-      clearInterval(intervalId);
-    };
-  }, [fn, n]);
-}
+    // Clean up the timer if the value changes before the delay has passed
+    return () => clearTimeout(timerId);
+  }, [value, delay]);
 
-function App() {
-  const [count, setCount] = useState(0);
+  return debouncedValue;
+};
 
-  useInterval(() => {
-    setCount(c => c + 1);
-  }, 1000);
+const SearchBar = () => {
+  const [inputValue, setInputValue] = useState('');
+  const debouncedValue = useDebounce(inputValue, 500); // 500 milliseconds debounce delay
+
+  // Use the debouncedValue in your component logic, e.g., trigger a search API call via a useEffect
 
   return (
-    <>
-      Timer is at {count}
-    </>
+    <input
+      type="text"
+      value={inputValue}
+      onChange={(e) => setInputValue(e.target.value)}
+      placeholder="Search..."
+    />
   );
-}
+};
 
-export default App;
+export default SearchBar;
