@@ -1,53 +1,29 @@
-import { useEffect, useState } from 'react'
-import axios from 'axios'
+import { useEffect, useState } from 'react';
 
-function useTodos(n) {
-  const [loading, setLoading] = useState(true);
-  const [todos, setTodos] = useState([])
-
-  function getData() {
-    axios.get("https://sum-server.100xdevs.com/todos")
-      .then(res => {
-        setTodos(res.data.todos);
-        setLoading(false);
-      })
-  }
-
+function useInterval(fn, n) {
   useEffect(() => {
-    setInterval(() => {
-      getData();
-    }, n * 1000)
-    getData();
-  }, [n])
+    const intervalId = setInterval(() => {
+      fn();
+    }, n);
 
-  return {
-    todos: todos,
-    loading: loading
-  };
+    return () => {
+      clearInterval(intervalId);
+    };
+  }, [fn, n]);
 }
 
 function App() {
-  const { todos, loading } = useTodos(5);
+  const [count, setCount] = useState(0);
 
-  if (loading) {
-    return <div>
-      Loading...
-    </div>
-  }
+  useInterval(() => {
+    setCount(c => c + 1);
+  }, 1000);
 
   return (
     <>
-      {todos.map(todo => <Track todo={todo} />)}
+      Timer is at {count}
     </>
-  )
+  );
 }
 
-function Track({ todo }) {
-  return <div>
-    {todo.title}
-    <br />
-    {todo.description}
-  </div>
-}
-
-export default App
+export default App;
